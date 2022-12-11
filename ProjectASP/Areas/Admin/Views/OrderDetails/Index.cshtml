@@ -1,0 +1,71 @@
+﻿@model IEnumerable<ProjectASP.Models.OrderDetail>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/AdminTemplate.cshtml";
+}
+
+<h2>Quản lý đơn hàng</h2>
+
+@*<p>
+    <a asp-action="Create">Create New</a>
+</p>*@
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th>
+                Tên người mua
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Quantity)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TypeOrder)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Address)
+            </th>
+            <th>
+                Tổng Thanh Toán
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Status)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Account.AccountName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Quantity)
+            </td>
+            <td>
+                @(item.TypeOrder == 0 ? "Thanh toán bằng Momo" : "")
+                @(item.TypeOrder == 1 ? "Thanh toán bằng Zalo Pay" : "")
+                @(item.TypeOrder == 2 ? "Thanh toán bằng ATM/Cards" : "")
+                @(item.TypeOrder == 3 ? "Thanh toán khi nhận hàng" : "")
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Address)
+            </td>
+            <td>
+                @string.Format("{0:0,00}", (item.Product.SalePrice * item.Quantity)) VNĐ
+            </td>
+            <td>
+                @(item.Status == 0 ? "Đã Thanh Toán" : "")
+                @(item.Status == 1 ? "Chưa Thanh Toán" : "")
+                @(item.Status == 2 ? "Đã hủy đơn" : "")
+            </td>
+            <td>
+                <a class="btn btn-success" asp-action="Details" asp-route-id="@item.OrderID"><i class="fas fa-list"></i></a> |
+                <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.OrderID"><i class="fas fa-trash"></i></a>
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>

@@ -1,0 +1,283 @@
+﻿@model IEnumerable<ProjectASP.Models.Cart>
+@using Microsoft.AspNetCore.Http
+@{
+    ViewData["Title"] = "CheckOut";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link rel="stylesheet" href="//cdn.shopify.com/app/services/22976433/assets/185597066/checkout_stylesheet/v2-ltr-edge-c729ca93b0e76971a20e063d7bf52c7f-4" media="all" />
+<div class="content">
+    <div class="wrap">
+        <div class="main">
+            <header class="main__header" style="background:#fff">
+
+                <a href="~/Home">
+                    <img src="//cdn.shopify.com/s/files/1/2297/6433/files/logo2_cf2f7e8b-2863-405c-848a-6fec588b4eed.png?4" />
+                </a>
+                <nav aria-label="Breadcrumb">
+                    <ol class="breadcrumb " role="list">
+                        <li class="breadcrumb__item breadcrumb__item--completed">
+                            <a class="breadcrumb__link" href="~/Carts">Giỏ hàng</a>
+                            <svg class="icon-svg icon-svg--color-adaptive-light icon-svg--size-10 breadcrumb__chevron-icon" aria-hidden="true" focusable="false"> <use xlink:href="#chevron-right" /> </svg>
+                        </li>
+
+                        <li class="breadcrumb__item breadcrumb__item--current" aria-current="step">
+                            <span class="breadcrumb__text">Kiểm tra thông tin</span>
+                            <svg class="icon-svg icon-svg--color-adaptive-light icon-svg--size-10 breadcrumb__chevron-icon" aria-hidden="true" focusable="false"> <use xlink:href="#chevron-right" /> </svg>
+                        </li>
+                    </ol>
+                </nav>
+            </header>
+            <main class="main__content" role="main">
+                <div class="step" data-step="contact_information" data-last-step="false">
+                    <form class="edit_checkout" asp-action="Pay" accept-charset="UTF-8" method="post">
+                        <input hidden value="@ViewBag.Account.AccountID" name="AccountID" />
+                        <div class="step__sections">
+                            <div class="section section--contact-information">
+                                <div class="section__header">
+                                    <div class="layout-flex layout-flex--tight-vertical layout-flex--loose-horizontal layout-flex--wrap">
+                                        <h2 class="section__title layout-flex__item layout-flex__item--stretch" id="main-header" tabindex="-1">
+                                            Thông tin liên hệ
+                                        </h2>
+                                    </div>
+                                </div>
+                                <div class="section__content" data-section="customer-information" data-shopify-pay-validate-on-load="false">
+                                    <div class="fieldset">
+                                        <div data-shopify-pay-email-flow="false" class="field field--required">
+                                            <label for="name">Tên người mua</label>
+                                            <div class="field__input-wrapper">
+                                                <input placeholder="Name" class="field__input" size="30" type="text" value="@ViewBag.Account.AccountName" id="name" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="info__message hidden" aria-live="polite" info-accept-sms-messages>
+                                        We’ll send you an order receipt and recurring shipping updates via text message. Reply STOP to unsubscribe. Reply HELP for help. Message frequency varies. Msg &amp; data rates may apply. View our Privacy policy and Terms of service.
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="section section--shipping-address" data-shipping-address>
+                                <div class="section__header">
+                                    <h2 class="section__title" id="section-delivery-title">
+                                        Chi tiết đơn hàng
+                                    </h2>
+                                </div>
+
+
+                                <div class="section__content">
+                                    <div class="fieldset">
+                                        <div class="address-fields">
+                                            <div class="field field--required">
+                                                <label for="address">Địa chỉ giao hàng</label>
+                                                <div class="field__input-wrapper">
+                                                    <input placeholder="Address" name="address" value="@ViewBag.Account.Address" id="address" class="field__input" size="30" type="text" />
+                                                </div>
+                                            </div>
+                                            <div class="field">
+                                                <label for="phone">Số điện thoại</label>
+                                                <div class="field__input-wrapper field__input-wrapper--icon-right">
+                                                    <input placeholder="Phone" class="field__input field__input--numeric" size="30" type="tel" id="phone" value="@ViewBag.Account.Phone" />
+                                                </div>
+                                            </div>
+                                            <div class="field">
+                                                <label for="email">Email</label>
+                                                <div class="field__input-wrapper field__input-wrapper--icon-right">
+                                                    <input placeholder="Phone" class="field__input field__input--numeric" size="30" type="text" id="email" value="@ViewBag.Account.Email" />
+                                                </div>
+                                            </div>
+                                            <div class="field--third field field--required" data-autocomplete-field-container="true">
+                                                <label for="pay">Kiểu thanh toán</label>
+                                                <div class="field__input-wrapper field__input-wrapper--select">
+                                                    <select size="1" name="type" aria-required="true" id="pay" class="field__input field__input--select select-type">
+                                                        <option value="-1">~~~ Chọn ~~~</option>
+                                                        <option value="2">Thanh toán bằng thẻ ATMs</option>
+                                                        <option value="1">Thanh toán bằng Zalo Pay</option>
+                                                        <option value="0">Thanh toán bằng Momo</option>
+                                                        <option value="3">Thanh toán khi nhận hàng</option>
+                                                    </select>
+                                                    <div class="field__caret">
+                                                        <svg class="icon-svg icon-svg--color-adaptive-lighter icon-svg--size-10 field__caret-svg" role="presentation" aria-hidden="true" focusable="false"> <use xlink:href="#caret-down" /> </svg>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="field">
+                                                <div class="checkbox-wrapper">
+                                                    <div class="checkbox__input">
+                                                        <input autocomplete="off" size="30" type="hidden" name="checkout[remember_me]" />
+                                                        <input name="checkout[remember_me]" type="hidden" value="0" autocomplete="off" /><input class="input-checkbox" data-backup="remember_me" type="checkbox" value="1" name="checkout[remember_me]" id="checkout_remember_me" />
+                                                    </div>
+                                                    <label class="checkbox__label" for="checkout_remember_me">
+                                                        Lưu thông tin
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="step__footer" data-step-footer>
+                                <button name="button" disabled type="submit" id="continue_button" class="step__footer__continue-btn btn" aria-busy="false"><span class="btn__content" data-continue-button-content="true">Thanh toán</span><svg class="icon-svg icon-svg--size-18 btn__spinner icon-svg--spinner-button" aria-hidden="true" focusable="false"> <use xlink:href="#spinner-button" /> </svg></button>
+                                <a class="step__footer__previous-link" href="~/Carts">Quay lại giỏ hàng</a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </main>
+        </div>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+        <script>
+            $("#pay").change(function () {
+                var type = document.getElementById("pay");
+                console.log(type.value);
+                if (type.value >= 0) {
+                    $("#continue_button").removeAttr("disabled");
+                } else {
+                    $("#continue_button").attr("disabled", "disabled");
+                }
+            })
+        </script>
+        <aside class="sidebar" role="complementary">
+            <div class="sidebar__header">
+
+                <a class="logo logo--left" href="#">
+                    <img alt="oregon-theme" class="logo__image logo__image--medium" src="//cdn.shopify.com/s/files/1/2297/6433/files/logo2_cf2f7e8b-2863-405c-848a-6fec588b4eed.png?4" />
+                </a>
+
+                <h1 class="visually-hidden">
+                    Information
+                </h1>
+
+
+            </div>
+            <div class="sidebar__content">
+                <div id="order-summary" class="order-summary order-summary--is-collapsed" data-order-summary>
+                    <h2 class="visually-hidden-if-js">Order summary</h2>
+
+                    <div class="order-summary__sections">
+                        <div class="order-summary__section order-summary__section--product-list">
+                            <div class="order-summary__section__content">
+                                <table class="product-table">
+                                    <caption style="font-size:24px;border-bottom:1px solid #000;padding:20px 0;margin-bottom:20px">Giỏ hàng hiện tại</caption>
+                                    <thead class="product-table__header">
+                                        <tr>
+                                            <th scope="col"><span class="visually-hidden">Product image</span></th>
+                                            <th scope="col"><span class="visually-hidden">Description</span></th>
+                                            <th scope="col"><span class="visually-hidden">Quantity</span></th>
+                                            <th scope="col"><span class="visually-hidden">Price</span></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody data-order-summary-section="line-items">
+                                        @foreach (var item in Model)
+                                        {
+                                            <tr class="product">
+                                                <td class="product__image">
+                                                    <div class="product-thumbnail ">
+                                                        <div class="product-thumbnail__wrapper">
+                                                            <img class="product-thumbnail__image" src="~/images/products/@item.Product.ProductImage" alt="@item.Product.ProductName" />
+                                                        </div>
+                                                        <span class="product-thumbnail__quantity" aria-hidden="true">@item.Quantity</span>
+                                                    </div>
+
+                                                </td>
+                                                <th class="product__description" scope="row">
+                                                    <span class="product__description__name order-summary__emphasis">@item.Product.ProductName</span>
+                                                    <span class="product__description__variant order-summary__small-text"></span>
+
+                                                </th>
+                                                <td class="product__quantity">
+                                                    <span class="visually-hidden">
+                                                        @item.Quantity
+                                                    </span>
+                                                </td>
+                                                <td class="product__price">
+                                                    <span class="order-summary__emphasis skeleton-while-loading">@string.Format("{0:0,00}", (item.Product.SalePrice > 0 ? item.Product.SalePrice : item.Product.Price))</span>
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+
+                                <div class="order-summary__scroll-indicator" aria-hidden="true" tabindex="-1" id="order-summary__scroll-indicator">
+                                    Scroll for more items
+                                    <svg aria-hidden="true" focusable="false" class="icon-svg icon-svg--size-12"> <use xlink:href="#down-arrow" /> </svg>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                        <div class="order-summary__section order-summary__section--total-lines" data-order-summary-section="payment-lines">
+                            <table class="total-line-table">
+                                <caption class="visually-hidden">Cost summary</caption>
+                                <thead>
+                                    <tr>
+                                        <th scope="col"><span class="visually-hidden">Description</span></th>
+                                        <th scope="col"><span class="visually-hidden">Price</span></th>
+                                    </tr>
+                                </thead>
+                                <tbody class="total-line-table__tbody">
+                                    <tr class="total-line total-line--subtotal">
+                                        <th class="total-line__name" scope="row">Tổng tiền</th>
+                                        <td class="total-line__price">
+                                            <span class="order-summary__emphasis skeleton-while-loading" data-checkout-subtotal-price-target="9900">
+                                                @string.Format("{0:0,00}", ViewBag.Total) VNĐ
+                                            </span>
+                                        </td>
+                                    </tr>
+
+
+
+
+                                    <tr class="total-line total-line--shipping">
+                                        <th class="total-line__name" scope="row">
+                                            <span>
+                                                Shipping
+                                            </span>
+
+                                        </th>
+                                        <td class="total-line__price">
+                                            <span class="skeleton-while-loading order-summary__small-text" data-checkout-total-shipping-target="0">
+                                                Miễn phí ship
+                                            </span>
+                                        </td>
+                                    </tr>
+
+
+
+
+
+
+                                </tbody>
+                                <tfoot class="total-line-table__footer">
+                                    <tr class="total-line">
+                                        <th class="total-line__name payment-due-label" scope="row">
+                                            <span class="payment-due-label__total">Tổng</span>
+                                        </th>
+                                        <td class="total-line__price payment-due" data-presentment-currency="VNĐ">
+                                            <span class="payment-due__currency remove-while-loading">VNĐ</span>
+                                            <span class="payment-due__price skeleton-while-loading--lg" data-checkout-payment-due-target="9900">
+                                                @string.Format("{0:0,00}", ViewBag.Total) VNĐ
+                                            </span>
+                                        </td>
+                                    </tr>
+
+                                </tfoot>
+                            </table>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="visually-hidden" data-order-summary-section="accessibility-live-region">
+                    <div aria-live="polite" aria-atomic="true" role="status">
+                        Updated total price:
+                        <span data-checkout-payment-due-target="9900">
+                            $99.00
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </aside>
+    </div>
+</div>

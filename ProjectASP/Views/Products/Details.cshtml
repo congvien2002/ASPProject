@@ -1,0 +1,452 @@
+﻿@model ProjectASP.Models.Cart
+@using Microsoft.AspNetCore.Http
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container">
+
+
+    <!-- Breadcumb area start -->
+    <ul class="breadcrumb">
+        <li>
+            <a href="~/Home" title="Quay lại trang chủ">
+                <font style="vertical-align: inherit;">
+                    <font style="vertical-align: inherit;">
+                        Nhà
+                    </font>
+                </font>
+            </a>
+        </li>
+        <li>
+            <a href="#">
+                <span>
+                    <font style="vertical-align: inherit;">
+                        <font style="vertical-align: inherit;">Details</font>
+                    </font>
+                </span>
+            </a>
+        </li>
+
+
+    </ul>
+    <!--End Breadcumb area -->
+
+    <div class="row">
+        <div class="product-details">
+            <div id="content" class="col-sm-12">
+                <div class="row">
+                    <div class="col-1 col-sm-6">
+                        <div class="thumbnails">
+                            <a class="thumbnail">
+                                <img src="~/images/products/@ViewBag.Product.ProductImage" title="@ViewBag.Product.ProductName" alt="@ViewBag.Product.ProductName">
+                            </a>
+                        </div>
+                        <!-- end wrapper-img-additional -->
+                    </div>
+                    <div class="col-2 col-sm-6">
+                        <!-- end-rating -->
+                        <h1 class="product-name" itemprop="name">
+                            <font style="vertical-align: inherit;">
+                                <font style="vertical-align: inherit;">@ViewBag.Product.ProductName</font>
+                            </font>
+                        </h1>
+                        <ul class="list-unstyled price-product">
+                            @if (ViewBag.Product.SalePrice == 0)
+                            {
+                                <li>
+                                    <span id="productPrice">
+                                        <span class="visually-hidden">
+                                            <font style="vertical-align: inherit;">
+                                                <font style="vertical-align: inherit;">Giá : @String.Format("{0:0,00}", ViewBag.Product.Price) VNĐ</font>
+                                            </font>
+                                        </span>
+                                    </span>
+                                </li>
+                            }
+                            else
+                            {
+                                <li>
+                                    <span id="productPrice">
+                                        <span class="visually-hidden">
+                                            <font style="vertical-align: inherit;">
+                                                <font style="vertical-align: inherit;">Giá : @String.Format("{0:0,00}", ViewBag.Product.SalePrice) VNĐ</font>
+                                            </font>
+                                        </span>
+                                    </span>
+                                </li>
+                            }
+                        </ul>
+                        <ul class="list-unstyled">
+
+                            <li>
+                                <font style="vertical-align: inherit;">
+                                    <font style="vertical-align: inherit;">
+                                        Made In :
+                                    </font>
+                                </font><a href="#products/accumsan-elit#">
+                                    <span class="ex-text">
+                                        <font style="vertical-align: inherit;">
+                                            <font style="vertical-align: inherit;">@ViewBag.Product.MadeIn</font>
+                                        </font>
+                                    </span>
+                                </a>
+                            </li>
+
+                            <li>
+                                <font style="vertical-align: inherit;">
+                                    <font style="vertical-align: inherit;">
+                                        Trạng Thái : @(ViewBag.Product.Status ? "Còn" : "Hết")
+                                    </font>
+                                </font><span style="font-weight:bold; color:#66aa00" class="ex-text">
+                                    <font style="vertical-align: inherit;">
+                                        <font style="vertical-align: inherit;">
+                                            hàng
+                                        </font>
+                                    </font>
+                                </span>
+                            </li>
+                        </ul>
+                        <p class="short-des">
+                            <font style="vertical-align: inherit;">
+                                <font style="vertical-align: inherit;">
+                                    Nunc folateisis sagittis ullamcorper.
+                                    Proin
+                                    lectus ipsum,
+                                </font>
+                            </font>
+                        </p>
+                        <form asp-action="Create" asp-controller="Carts" method="post"
+                              enctype="multipart/form-data">
+                            <input type="text" value="@ViewBag.Product.ProductID" asp-for="ProductID" hidden />
+                            @if (@Context.Session.GetInt32("CustomerID") != null)
+                            {
+                                <input type="text" hidden value="@Context.Session.GetInt32("CustomerID")" asp-for="AccountID" />
+                            }
+                            else
+                            {
+                                <input type="text" hidden value="-1" asp-for="AccountID" />
+                            }
+                            <div class="form-group">
+                                <div class="qty-product">
+                                    <label class="control-label" for="Quantity">
+                                        <font style="vertical-align: inherit;">
+                                            <font style="vertical-align: inherit;">
+                                                Số
+                                                lượng:
+                                            </font>
+                                        </font>
+                                    </label>
+                                    <input type="number" asp-for="Quantity" value="1" size="2" class="form-control" min="1">
+                                </div>
+
+                                <div class="clearfix"></div>
+                                <div class="cart">
+                                    <button id="btn-submit" class="button" type="submit"
+                                            data-loading-text="Loading...">
+                                        <span>
+                                            <font style="vertical-align: inherit;">
+                                                <font style="vertical-align: inherit;">Thêm vào giỏ hàng</font>
+                                            </font>
+                                        </span>
+                                    </button>
+
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+
+
+                </div>
+                <div class="col-3">
+                    <ul class="nav nav-tabs">
+                        <li role="presentation" class="active" id="description">
+                            <a href="#">
+                                <font style="vertical-align: inherit;">
+                                    <font style="vertical-align: inherit;">
+                                        Sự mô
+                                        tả
+                                    </font>
+                                </font>
+                            </a>
+                        </li>
+
+                        <li role="presentation" id="reviews">
+                            <a href="#">
+                                <font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Nhận xét</font></font>
+                            </a>
+                        </li>
+
+
+                        <li role="presentation" id="information">
+                            <a href="#" >
+                                <font style="vertical-align: inherit;">
+                                    <font style="vertical-align: inherit;">
+                                        thông tin
+                                        thêm
+                                    </font>
+                                </font>
+                            </a>
+                        </li>
+
+                        <li role="presentation" id="tags">
+                            <a href="#" >
+                                <font style="vertical-align: inherit;">
+                                    <font style="vertical-align: inherit;">Thẻ</font>
+                                </font>
+                            </a>
+                        </li>
+                    </ul>
+                    <div class="tab-content" data-aos="fade-zoom-in" data-aos-delay="200" data-aos-duration="600"
+                         data-aos-anchor=".col-3">
+                        <div role="tabpanel" class="tab-pane active" id="_description">
+                            <p>
+
+                            </p>
+                            <p>
+                                <font style="vertical-align: inherit;">
+                                    <font style="vertical-align: inherit;">
+                                        @(ViewBag.Product.Description == null ? "Sản phẩm chưa có mô tả" : ViewBag.Product.Description)
+                                    </font>
+                                </font>
+                            </p>
+
+                            <p></p>
+                        </div>
+
+                        <div role="tabpanel" class="tab-pane" id="_reviews">
+                            <p>
+                            </p>
+                            <div>
+                                <style scoped="">
+                                    .spr-container {
+                                        padding: 24px;
+                                        border-color: #ececec;
+                                    }
+
+                                    .spr-review, .spr-form {
+                                        border-color: #ececec;
+                                    }
+                                </style>
+
+                                <div class="spr-container">
+                                    <div class="spr-header">
+                                        <h2 class="spr-header-title">customer reviews</h2>
+                                        <div class="spr-summary rte">
+                                            <span class="spr-summary-caption">no reviews yet</span><span class="spr-summary-actions">
+                                                <a href="#" class="spr-summary-actions-newreview">write a review</a>
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <p></p>
+                        </div>
+
+
+                        <div role="tabpanel" class="tab-pane" id="_information">
+                            <p>
+                                <font style="vertical-align: inherit;">
+                                    <font style="vertical-align: inherit;">
+                                        Bạn có thể
+                                        sử dụng tab này để thêm chi tiết giao hàng, chính sách trả hàng và thông tin hoặc phép
+                                        đo, v.v.
+                                    </font>
+                                </font>
+                            </p>
+                            <p>
+                                lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod
+                                tincidunt ut laoreet dolore magna aliquam erat volutpat. ut wisi enim ad minim veniam,
+                                quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo
+                                consequat. duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie
+                                consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto
+                                odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait
+                                nulla facilisi. nam liber tempor cum soluta nobis eleifend option congue nihil imperdiet
+                                doming id quod mazim placerat facer possim assum. typi
+                            </p>
+                        </div>
+
+                        <div role="tabpanel" class="tab-pane" id="_tags">
+                            <p class="tags">
+                                <span>
+                                    Danh mục :
+                                    <a href="#">@ViewBag.Product.Category.CategoryName</a>
+                                </span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="related-product-container">
+
+        <!--Featured Product Area Start-->
+        <div class="module-title">
+            <h2>
+                <font style="vertical-align: inherit;">
+                    <font style="vertical-align: inherit;">
+                        Chúng tôi cũng khuyến
+                        nghị
+                    </font>
+                </font>
+            </h2>
+        </div>
+        <div class="row">
+            <div class="related-product owl-carousel owl-theme" style="opacity: 1; display: block;">
+                <div class="owl-wrapper-outer">
+                    <div class="owl-wrapper" style="width: 2830px; left: 0px; display: block;">
+                        @foreach (Product p in ViewBag.Related)
+                        {
+                            <div class="owl-item active before-active" style="width: 283px;">
+                                <div class="row_items">
+                                    <div class="item" data-aos="fade-zoom-in" data-aos-delay="300" data-aos-duration="600"
+                                         data-aos-anchor-placement="top-top">
+                                        <div class="item-inner">
+                                            <div class="images-container">
+                                                <a class="image"
+                                                   href="#">
+                                                    <img class="image1"
+                                                         src="~/images/products/@p.ProductImage"
+                                                         alt="@p.ProductName">
+                                                </a>
+
+                                                <div class="actions">
+                                                    <div class="add-to-links">
+                                                        <div class="compare">
+                                                            <a class="link-compare" title="Xem chi tiết"
+                                                               data-toggle="tooltip">
+                                                                <em>
+                                                                    <font style="vertical-align: inherit;">
+                                                                        <font style="vertical-align: inherit;">Xem chi tiết</font>
+                                                                    </font>
+                                                                </em>
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- images-container -->
+                                            <div class="des-container">
+                                                <div class="des-content">
+                                                    <h2 class="product-name">
+                                                        <a href="#">
+                                                            <font style="vertical-align: inherit;">
+                                                                <font style="vertical-align: inherit;">
+                                                                    @p.ProductName
+                                                                </font>
+                                                            </font>
+                                                        </a>
+                                                    </h2>
+                                                    <div class="price-label">
+                                                        <div class="box-price">
+
+                                                            <div class="price-box box-regular">
+                                                                <span class="regular-price">
+                                                                    <span class="price"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Giá : @string.Format("{0:0,00}", (p.SalePrice == 0 ? p.Price : p.SalePrice)) VNĐ</font></font></span>
+                                                                </span>
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="item-hover">
+                                                    <div class="cart">
+                                                        <button class="button btn-cart" type="button" data-toggle="tooltip"
+                                                                data-loading-text="Loading..." title="Thêm vào giỏ hàng">
+                                                            <span>
+                                                                <span>
+                                                                    <font style="vertical-align: inherit;">
+                                                                        <font style="vertical-align: inherit;">Thêm vào giỏ hàng</font>
+                                                                    </font>
+                                                                </span>
+                                                            </span>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!--des-container-->
+                                            <!-- item-inner -->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+
+
+                <div class="owl-controls clickable">
+                    <div class="owl-buttons">
+                        <div class="owl-prev">
+                            <font style="vertical-align: inherit;">
+                                <font style="vertical-align: inherit;">trước</font>
+                            </font>
+                        </div>
+                        <div class="owl-next">
+                            <font style="vertical-align: inherit;">
+                                <font style="vertical-align: inherit;">tiếp theo</font>
+                            </font>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--End of Featured Product Area-->
+
+    </div>
+
+</div>
+<script src="//cdn.shopify.com/s/files/1/2297/6433/t/10/assets/jquery-2.1.1.min.js?v=43303329536609403911505927063" type="text/javascript"></script>
+<script>
+    $("#description").click(function (ev) {
+        ev.preventDefault();
+        $(this).addClass("active");
+        $("#reviews").removeClass("active");
+        $("#information").removeClass("active");
+        $("#tags").removeClass("active");
+        $("#_reviews").hide();
+        $("#_information").hide();
+        $("#_tags").hide();
+        $("#_description").show();
+    });
+    $("#reviews").click(function (ev) {
+        ev.preventDefault();
+        $(this).addClass("active");
+        $("#description").removeClass("active");
+        $("#information").removeClass("active");
+        $("#tags").removeClass("active");
+        $("#_reviews").show();
+        $("#_information").hide();
+        $("#_tags").hide();
+        $("#_description").hide();
+    });
+    $("#information").click(function (ev) {
+        ev.preventDefault();
+        $(this).addClass("active");
+        $("#description").removeClass("active");
+        $("#reviews").removeClass("active");
+        $("#tags").removeClass("active");
+        $("#_reviews").hide();
+        $("#_information").show();
+        $("#_tags").hide();
+        $("#_description").hide();
+    });
+    $("#tags").click(function (ev) {
+        ev.preventDefault();
+        $(this).addClass("active");
+        $("#description").removeClass("active");
+        $("#reviews").removeClass("active");
+        $("#information").removeClass("active");
+        $("#_reviews").hide();
+        $("#_information").hide();
+        $("#_tags").show();
+        $("#_description").hide();
+    });
+</script>

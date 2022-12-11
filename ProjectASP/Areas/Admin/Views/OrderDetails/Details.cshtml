@@ -1,0 +1,99 @@
+﻿@model ProjectASP.Models.OrderDetail
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Areas/Admin/Views/Shared/AdminTemplate.cshtml";
+}
+
+<h2 class="text-center">Chi tiết đơn hàng</h2>
+
+<div class="container">
+    <div class="row">
+        <div class="col-6">
+            <table class="table table-hover">
+                <tr>
+                    <th>Tên người mua</th>
+                    <td>@Html.DisplayFor(model => model.Account.AccountName)</td>
+                </tr>
+                <tr>
+                    <th>@Html.DisplayNameFor(model => model.Address)</th>
+                    <td>@Html.DisplayFor(model => model.Address)</td>
+                </tr>
+                <tr>
+                    <th>@Html.DisplayNameFor(model => model.Account.Phone)</th>
+                    <td>@Html.DisplayFor(model => model.Account.Phone)</td>
+                </tr>
+                <tr>
+                    <th>@Html.DisplayNameFor(model => model.TypeOrder)</th>
+                    <td>
+                        @if (Model.TypeOrder == 0)
+                        {
+                            <p>Thanh toán bằng Momo</p>
+                        }
+                        else if (Model.TypeOrder == 1)
+                        {
+                            <p>Thanh toán bằng Zalo Pay</p>
+                        }
+                        else if (Model.TypeOrder == 2)
+                        {
+                            <p>Thanh toán bằng Momo</p>
+                        }
+                        else
+                        {
+                            <p>Thanh toán khi nhận hàng</p>
+                        }
+                    </td>
+                </tr>
+                <tr>
+                    <th>@Html.DisplayNameFor(model => model.Status)</th>
+                    <td>
+                        @if (Model.Status == 0)
+                        {
+                            <p>Đã thanh toán</p>
+                        }
+                        else if (Model.Status == 1)
+                        {
+                            <p>Chưa thanh toán</p>
+                        }
+                        else
+                        {
+                            <p>Đã hủy</p>
+                        }
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div class="col-6">
+            <table class="table table-bordered">
+                <tr>
+                    <th class="text-center" colspan="3">Sản phẩm</th>
+                    <th>Số lượng</th>
+                </tr>
+                @foreach (var item in ViewBag.Products)
+                {
+                    <tr>
+                        <td>
+                            <img alt="@item.Product.ProductName" src="~/images/products/@item.Product.ProductImage" width="100px" />
+                        </td>
+                        <td>
+                            @item.Product.ProductName
+                        </td>
+                        <td>
+                            @string.Format("{0:0,00}", (item.Product.SalePrice > 0 ? item.Product.SalePrice : item.Product.Price)) VNĐ
+                        </td>
+                        <td>
+                            @item.Quantity
+                        </td>
+                    </tr>
+                }
+                    <tr>
+                        <th colspan="2">Tổng thiệt hại</th>
+                        <th colspan="2">@string.Format("{0:0,00}", ViewBag.Total) VNĐ</th>
+                    </tr>
+            </table>
+        </div>
+    </div>
+</div>
+<div>
+    <a class="btn btn-primary" asp-action="Index">Quay lại</a>
+</div>

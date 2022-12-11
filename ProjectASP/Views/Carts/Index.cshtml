@@ -1,0 +1,186 @@
+﻿@model IEnumerable<ProjectASP.Models.Cart>
+@using Microsoft.AspNetCore.Http
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!-- cart main area start -->
+<div class="container">
+    <!-- Breadcumb area start -->
+    <ul class="breadcrumb">
+        <li>
+            <a href="~/Home" title="Quay lại trang chủ">
+                <font style="vertical-align: inherit;">
+                    <font style="vertical-align: inherit;">
+                        Nhà
+                    </font>
+                </font>
+            </a>
+        </li>
+
+        <li>
+            <a href="#">
+                <span>
+                    <font style="vertical-align: inherit;">
+                        <font style="vertical-align: inherit;">Giỏ hàng của bạn</font>
+                    </font>
+                </span>
+            </a>
+        </li>
+    </ul>
+    <!--End Breadcumb area -->
+    <div class="row">
+        <div id="content" class="col-sm-12">
+            <h1>
+                <font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Giỏ hàng</font></font>
+            </h1>
+            <form method="post">
+                <div class="table-responsive">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <td class="text-center">
+                                    <font style="vertical-align: inherit;">
+                                        <font style="vertical-align: inherit;">Hình ảnh</font>
+                                    </font>
+                                </td>
+                                <td class="text-center">
+                                    <font style="vertical-align: inherit;">
+                                        <font style="vertical-align: inherit;">tên sản phẩm</font>
+                                    </font>
+                                </td>
+                                <td class="text-center">
+                                    <font style="vertical-align: inherit;">
+                                        <font style="vertical-align: inherit;">Số lượng</font>
+                                    </font>
+                                </td>
+                                <td class="text-center">
+                                    <font style="vertical-align: inherit;">
+                                        <font style="vertical-align: inherit;">Đơn giá</font>
+                                    </font>
+                                </td>
+                                <td class="text-center">
+                                    <font style="vertical-align: inherit;">
+                                        <font style="vertical-align: inherit;">Tổng cộng</font>
+                                    </font>
+                                </td>
+                                <td class="text-center">
+                                    <font style="vertical-align: inherit;">
+                                        <font style="vertical-align: inherit;"></font>
+                                    </font>
+                                </td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach(var item in Model) {
+                            <tr data-line="1">
+                                <td class="text-center">
+                                    <a href="#">
+                                        <img src="~/images/products/@item.Product.ProductImage"
+                                             alt="@item.Product.ProductName" title="@item.Product.ProductName" class="img-thumbnail" width="200px">
+                                    </a>
+                                </td>
+                                <td class="text-center">
+                                    <a href="#">
+                                        <font style="vertical-align: inherit;">
+                                            <font style="vertical-align: inherit;">
+                                                @item.Product.ProductName
+                                            </font>
+                                        </font>
+                                    </a>
+
+
+                                </td>
+                                <td class="text-left">
+                                    <div class="input-group btn-block">
+                                        <input value="@item.Quantity" min="1" class="form-control" data-line="1" readonly>
+                                    </div>
+                                </td>
+                                <td class="text-right">
+                                    <font style="vertical-align: inherit;">
+                                        <font style="vertical-align: inherit;">@string.Format("{0:0,00}", (item.Product.SalePrice == 0 ? item.Product.Price : item.Product.SalePrice))</font>
+                                    </font>
+                                </td>
+                                <td class="text-right">
+                                    <font style="vertical-align: inherit;">
+                                        <font style="vertical-align: inherit;">@string.Format("{0:0,00}",(item.Quantity * (item.Product.SalePrice == 0 ? item.Product.Price : item.Product.SalePrice)))</font>
+                                    </font>
+                                </td>
+                                <td class="text-right">
+                                    <a asp-action="Delete" asp-controller="Carts" asp-route-id="@item.CartID">
+                                        <font style="vertical-align: inherit;">
+                                            <font style="vertical-align: inherit;">Xóa</font>
+                                        </font>
+                                    </a>
+                                </td>
+                            </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-sm-4 col-sm-offset-8">
+                        <table class="table table-bordered">
+                            <tbody>
+                                <tr>
+                                    <td colspan="2" class="text-center">
+                                        <strong>
+                                            <font style="vertical-align: inherit;">
+                                                <font style="vertical-align: inherit;">
+                                                    Vận chuyển, thuế và chiết khấu sẽ được tính khi
+                                                    thanh toán.
+                                                </font>
+                                            </font>
+                                        </strong>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td class="text-right">
+                                        <strong>
+                                            <font style="vertical-align: inherit;">
+                                                <font style="vertical-align: inherit;">Tổng đơn hàng :</font>
+                                            </font>
+                                        </strong>
+                                    </td>
+                                    <td class="text-right">
+                                        <span class="total-price">
+                                            <font style="vertical-align: inherit;">
+                                                <b><font style="vertical-align: inherit;">@string.Format("{0:0,00}",ViewBag.Total)</font></b>
+                                            </font>
+                                        </span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="buttons clearfix">
+                    <div class="pull-left">
+                        <a href="~/Products" class="btn btn-warning">
+                            <font style="vertical-align: inherit;">
+                                <font style="vertical-align: inherit;">
+                                    Tiếp tục mua
+                                    sắm
+                                </font>
+                            </font>
+                        </a>
+                    </div>
+
+                    <div class="pull-right">
+                        <a href="~/Carts/Checkout?id=@Context.Session.GetInt32("CustomerID")" class="btn btn-primary">
+                            <font style="vertical-align: inherit;">
+                                <font style="vertical-align: inherit;">
+                                    Thanh Toán Ngay
+                                </font>
+                            </font>
+                        </a>
+                    </div>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>

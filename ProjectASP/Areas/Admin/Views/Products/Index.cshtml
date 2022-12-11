@@ -1,0 +1,106 @@
+﻿@model X.PagedList.IPagedList<ProjectASP.Models.Product>
+@using X.PagedList.Mvc.Core
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/AdminTemplate.cshtml";
+}
+<br>
+<h2 class="text-center mb-5">Quản Lý Sản Phẩm</h2>
+
+<div class="row">
+    <div class="col-3 col-lg-3 col-md-3 col-sm-3">
+        <a asp-action="Create" class="btn btn-secondary">Thêm mới</a>
+    </div>
+    <div class="col-6 col-lg-6 col-md-6 col-sm-6">
+        <form asp-area="Admin" asp-action="Search" asp-controller="Products" class="row form-group">
+            <div class="col-8">
+                <input class="form-control" type="text" name="search" id="search" placeholder="Search here " />
+            </div>
+            <div class="col-4">
+                <button class="btn btn-primary" type="submit"><i class="fas fa-search"></i></button>
+            </div>
+        </form>
+    </div>
+    <div class="col-3 col-lg-3 col-md-3 col-sm-3">
+        <select class="form-control" id="select_category">
+            <option value="default">Tất cả</option>
+            @foreach (var item in ViewBag.Category)
+            {
+                @if (ViewBag.CurrentSelect == item.CategoryID)
+                {
+                    <option selected value="@item.CategoryID">@item.CategoryName</option>
+                }
+                else
+                {
+                    <option value="@item.CategoryID">@item.CategoryName</option>
+                }
+            }
+            </select>
+    </div>
+</div>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.FirstOrDefault().ProductName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FirstOrDefault().Price)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FirstOrDefault().SalePrice)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FirstOrDefault().DayMaking)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FirstOrDefault().MadeIn)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FirstOrDefault().Status)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ProductName)
+                </td>
+                <td>
+                    @string.Format("{0:0,00}", item.Price) VNĐ
+                </td>
+                <td>
+                    @string.Format("{0:0,00}", item.SalePrice) VNĐ
+                </td>
+                <td>
+                    @item.DayMaking.ToString("dd/MM/yyyy")
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MadeIn)
+                </td>
+                <td>
+                    @(item.Status ? "Còn Hàng" : "Hết Hàng")
+                </td>
+                <td>
+                    <a class="btn btn-warning" asp-action="Edit" asp-route-id="@item.ProductID"><i class="fas fa-tools"></i></a> |
+                    <a class="btn btn-success" asp-action="Details" asp-route-id="@item.ProductID"><i class="fas fa-list"></i></a> |
+                    <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.ProductID"><i class="fas fa-trash"></i></a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<script src="~/plugins/jquery/jquery.min.js"></script>
+<script>
+    $("#select_category").change(function () {
+        var _url = $(this).val();
+        if (_url != "default") {
+            location.href = "https://localhost:44379/Admin/Products/GetByCategory/" + _url;
+        }
+    })
+</script>
+@Html.PagedListPager(Model,page=>Url.Action("Index",new { page = page}))
+

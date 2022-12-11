@@ -1,0 +1,31 @@
+﻿@model ProjectASP.Models.Category
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Areas/Admin/Views/Shared/AdminTemplate.cshtml";
+}
+
+<h2 class="text-center">Chi tiết danh mục</h2>
+
+<div>
+
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.CategoryName)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.CategoryName)
+        </dd>
+        <dt>
+            Số sản phẩm đang bán
+        </dt>
+        <dd>
+            @ViewBag.TotalProduct
+        </dd>
+    </dl>
+</div>
+<div>
+    <a class="btn btn-warning" asp-action="Edit" asp-route-id="@Model.CategoryID">Chỉnh sửa</a> |
+    <a class="btn btn-primary" asp-action="Index">Quay lại</a>
+</div>

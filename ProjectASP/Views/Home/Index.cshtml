@@ -1,0 +1,336 @@
+﻿@model IEnumerable<ProjectASP.Models.Product>
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+<div class="shopify-section">
+    <div class="row full-width">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12 col-md-12">
+                    <!--Service Area Start-->
+                    <div class="cmsblock">
+                        <div class="description">
+                            <div class="banner-static">
+                                <div class="container">
+                                    <div class="container-inner">
+                                        <div class="row">
+                                            <div class="col-d-4 col-sm-4 col-sms-12" data-aos="fade-zoom-in"
+                                                 data-aos-offset="200" data-aos-easing="ease-in-sine"
+                                                 data-aos-duration="600" data-aos-anchor-placement="top-top">
+                                                <div class="col col1">
+                                                    <div class="icon-banner">
+                                                        <i class="ion-paper-airplane"></i>
+                                                    </div>
+                                                    <div class="banner-text">
+                                                        <h2>
+                                                            <font style="vertical-align: inherit;">
+                                                                <font style="vertical-align: inherit;">
+                                                                    Miễn phí vận
+                                                                    chuyển
+                                                                </font>
+                                                            </font>
+                                                        </h2>
+                                                        <p>
+                                                            <font style="vertical-align: inherit;">
+                                                                <font style="vertical-align: inherit;">
+                                                                    Giao hàng miễn phí
+                                                                    cho tất cả các đơn đặt hàng trên $ 99
+                                                                </font>
+                                                            </font>
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-d-4 col-sm-4 col-sms-12" data-aos="fade-zoom-in"
+                                                 data-aos-offset="200" data-aos-easing="ease-in-sine"
+                                                 data-aos-duration="600" data-aos-anchor-placement="top-top">
+                                                <div class="col col2">
+                                                    <div class="icon-banner">
+                                                        <i class="ion-social-usd"></i>
+                                                    </div>
+                                                    <div class="banner-text">
+                                                        <h2>
+                                                            <font style="vertical-align: inherit;">
+                                                                <font style="vertical-align: inherit;">
+                                                                    Trả lại miễn
+                                                                    phí
+                                                                </font>
+                                                            </font>
+                                                        </h2>
+                                                        <p>
+                                                            <font style="vertical-align: inherit;">
+                                                                <font style="vertical-align: inherit;">
+                                                                    Đảm bảo hoàn lại
+                                                                    tiền trong 30 ngày!
+                                                                </font>
+                                                            </font>
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-d-4 col-sm-4 col-sms-12" data-aos="fade-zoom-in"
+                                                 data-aos-offset="200" data-aos-easing="ease-in-sine"
+                                                 data-aos-duration="600" data-aos-anchor-placement="top-top">
+                                                <div class="col col3">
+                                                    <div class="icon-banner">
+                                                        <i class="ion-help-buoy"></i>
+                                                    </div>
+                                                    <div class="banner-text">
+                                                        <h2>
+                                                            <font style="vertical-align: inherit;">
+                                                                <font style="vertical-align: inherit;">
+                                                                    Hỗ trợ trực tuyến
+                                                                    24/7
+                                                                </font>
+                                                            </font>
+                                                        </h2>
+                                                        <p>
+                                                            <font style="vertical-align: inherit;">
+                                                                <font style="vertical-align: inherit;">
+                                                                    Chúng tôi hỗ trợ
+                                                                    trực tuyến 24 giờ một ngày
+                                                                </font>
+                                                            </font>
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--End of Service Area-->
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div class="col-sm-12 col-md-12">
+    <div class="occountdown_module occountdown-container quickview-products">
+        <div class="container">
+            <div class="container-inner">
+                <div class="countdown-title module-title">
+                    <h2>
+                        <font style="vertical-align: inherit;">
+                            <font style="vertical-align: inherit;">Sản phẩm mới trong tuần</font>
+                        </font>
+                    </h2>
+                </div>
+                <div class="countdown-product-inner owl-carousel owl-theme owl-loaded"
+                     style="opacity: 1; display: block;">
+                    <div class="owl-stage-outer">
+                        <div class="owl-stage" style="width: 3510px; left: 0px; display: block;">
+                            @foreach (var product in Model)
+                            {
+                                <div class="owl-item" style="width: 585px;">
+                                    <div class="row_items">
+                                        <div class="item">
+                                            <div class="item-inner">
+                                                <div class="row">
+                                                    <div class="col-md-6 col-sm-6 col-sms-12">
+                                                        <div class="images-container">
+                                                            <a asp-action="Details" asp-route-id="@product.ProductID">
+                                                                <img src="~/images/products/@product.ProductImage"
+                                                                     alt="@product.ProductName">
+                                                            </a>
+                                                           @if (product.SalePrice > 0)
+                                                           {
+                                                            <span class="sale" style="position: absolute;
+                                                                margin-top: -135px;max-width:45px;
+                                                                padding: 10px 5px;
+                                                                background: #fc9003;color:#fff;
+                                                                margin-left: -110px;
+                                                                border-radius: 0 0 10px 10px;">
+                                                                Sale
+                                                                @String.Format("{0,0:00}", ((product.Price - product.SalePrice) / product.Price) * 100) %
+                                                            </span>
+                                                           }
+                                                        </div>
+                                                        <!-- images-container -->
+                                                    </div>
+
+                                                    <div class="col-md-6 col-sm-6 col-sms-12">
+
+                                                        <div class="des-container">
+                                                            <h2 class="product-name">
+                                                                <a asp-action="Details" asp-controller="Products" asp-route-id="@product.ProductID">
+                                                                    <font style="vertical-align: inherit;">
+                                                                        <font style="vertical-align: inherit;">
+                                                                            @product.ProductName
+                                                                        </font>
+                                                                    </font>
+                                                                </a>
+                                                            </h2>
+                                                            <div class="description">
+                                                                <font style="vertical-align: inherit;">
+                                                                    <font style="vertical-align: inherit;">
+                                                                        Sản xuất tại @product.MadeIn
+                                                                    </font>
+                                                                </font>
+                                                            </div>
+                                                            <div class="price-label">
+                                                                <div class="box-price">
+
+                                                                    <p class="price">
+                                                                        <span class="price-new">
+                                                                            <font style="vertical-align: inherit;">
+                                                                                <font style="vertical-align: inherit;">Giá : @string.Format("{0:0,00}", product.SalePrice) VNĐ</font>
+                                                                            </font>
+                                                                        </span>
+                                                                        <span class="price-old">
+                                                                            <font style="vertical-align: inherit;">
+                                                                                <font style="vertical-align: inherit;">@string.Format("{0:0,00}", product.Price)</font>
+                                                                            </font>
+                                                                        </span>
+                                                                    </p>
+
+                                                                </div>
+                                                            </div>
+                                                            <div class="cart">
+                                                                <a asp-action="Details" asp-controller="Products" asp-route-id="@product.ProductID">
+                                                                    <button class="button btn-cart"
+                                                                            type="button"
+                                                                            title="Thêm vào giỏ hàng">
+                                                                        <span>
+                                                                            <span>
+                                                                                <font style="vertical-align: inherit;">
+                                                                                    <font style="vertical-align: inherit;">Thêm vào giỏ hàng</font>
+                                                                                </font>
+                                                                            </span>
+                                                                        </span>
+                                                                    </button>
+                                                                </a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="col-sm-12 col-md-12">
+    <div class="occountdown_module occountdown-container quickview-products">
+        <div class="container">
+            <div class="container-inner">
+                <div class="countdown-title module-title">
+                    <h2>
+                        <font style="vertical-align: inherit;">
+                            <font style="vertical-align: inherit;">Sản phẩm Hot Sale</font>
+                        </font>
+                    </h2>
+                </div>
+                <div class="countdown-product-inner owl-carousel owl-theme owl-loaded"
+                     style="opacity: 1; display: block;">
+                    <div class="owl-stage-outer">
+                        <div class="owl-stage" style="width: 3510px; left: 0px; display: block;">
+                            @foreach (var product in ViewBag.Sale)
+                            {
+                                <div class="owl-item" style="width: 585px;">
+                                    <div class="row_items">
+                                        <div class="item">
+                                            <div class="item-inner">
+                                                <div class="row">
+                                                    <div class="col-md-6 col-sm-6 col-sms-12">
+                                                        <div class="images-container">
+                                                            <a asp-action="Details" asp-route-id="@product.ProductID">
+                                                                <img src="~/images/products/@product.ProductImage"
+                                                                     alt="@product.ProductName">
+                                                            </a>
+                                                                <span class="sale" style="position: absolute;
+                                                                margin-top: -135px;max-width:45px;
+                                                                padding: 10px 5px;
+                                                                background: #fc9003;color:#fff;
+                                                                margin-left: -110px;
+                                                                border-radius: 0 0 10px 10px;">
+                                                                    Sale
+                                                                    @String.Format("{0,0:00}", ((product.Price - product.SalePrice) / product.Price) * 100) %
+                                                                </span>
+                                                        </div>
+                                                        <!-- images-container -->
+                                                    </div>
+
+                                                    <div class="col-md-6 col-sm-6 col-sms-12">
+
+                                                        <div class="des-container">
+                                                            <h2 class="product-name">
+                                                                <a asp-action="Details" asp-controller="Products" asp-route-id="@product.ProductID">
+                                                                    <font style="vertical-align: inherit;">
+                                                                        <font style="vertical-align: inherit;">
+                                                                            @product.ProductName
+                                                                        </font>
+                                                                    </font>
+                                                                </a>
+                                                            </h2>
+                                                            <div class="description">
+                                                                <font style="vertical-align: inherit;">
+                                                                    <font style="vertical-align: inherit;">
+                                                                        Sản xuất tại @product.MadeIn
+                                                                    </font>
+                                                                </font>
+                                                            </div>
+                                                            <div class="price-label">
+                                                                <div class="box-price">
+
+                                                                    <p class="price">
+                                                                        <span class="price-new">
+                                                                            <font style="vertical-align: inherit;">
+                                                                                <font style="vertical-align: inherit;">Giá : @string.Format("{0:0,00}", product.SalePrice) VNĐ</font>
+                                                                            </font>
+                                                                        </span>
+                                                                        <span class="price-old">
+                                                                            <font style="vertical-align: inherit;">
+                                                                                <font style="vertical-align: inherit;">@string.Format("{0:0,00}", product.Price)</font>
+                                                                            </font>
+                                                                        </span>
+                                                                    </p>
+
+                                                                </div>
+                                                            </div>
+                                                            <div class="cart">
+                                                                <a asp-action="Details" asp-controller="Products" asp-route-id="@product.ProductID">
+                                                                    <button class="button btn-cart"
+                                                                            type="button"
+                                                                            title="Thêm vào giỏ hàng">
+                                                                        <span>
+                                                                            <span>
+                                                                                <font style="vertical-align: inherit;">
+                                                                                    <font style="vertical-align: inherit;">Thêm vào giỏ hàng</font>
+                                                                                </font>
+                                                                            </span>
+                                                                        </span>
+                                                                    </button>
+                                                                </a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

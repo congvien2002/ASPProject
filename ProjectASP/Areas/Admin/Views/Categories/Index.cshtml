@@ -1,0 +1,49 @@
+﻿@model X.PagedList.IPagedList<ProjectASP.Models.Category>
+@using X.PagedList.Mvc.Core
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/AdminTemplate.cshtml";
+}
+
+<h2 class="text-center">Quản Lý Danh Mục</h2>
+
+<p>
+    <button class="btn btn-secondary">
+        <a href="~/Admin/Categories/Create" style="color:#fff">Thêm mới</a>
+    </button>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.FirstOrDefault().CategoryID)
+                <a asp-area="Admin" asp-action="SortByID" asp-route-id="@(ViewBag.Toggle != null ? ViewBag.Toggle : 0)" asp-controller="Categories"><i class="fas fa-arrows-alt-v"></i></a>
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FirstOrDefault().CategoryName)
+                <a asp-area="Admin" asp-action="SortByName" asp-route-id="@(ViewBag.ToggleName != null ? ViewBag.ToggleName : 0)" asp-controller="Categories"><i class="fas fa-arrows-alt-v"></i></a>
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CategoryID)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CategoryName)
+                </td>
+                <td>
+                    <a class="btn btn-warning" asp-action="Edit" asp-route-id="@item.CategoryID"><i class="fas fa-tools"></i></a> |
+                    <a class="btn btn-success" asp-action="Details" asp-route-id="@item.CategoryID"><i class="fas fa-list"></i></a> |
+                    <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.CategoryID"><i class="fas fa-trash"></i></a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+@Html.PagedListPager(Model, page => Url.Action("Index", new { page = page }))

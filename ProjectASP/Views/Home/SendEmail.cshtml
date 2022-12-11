@@ -1,0 +1,27 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>SendEmail</title>
+</head>
+<body>
+    @if (ViewBag.Error == null)
+    {
+        <h1>We are send email to the email you provide !!</h1>
+        <h2>Please <a href="https://mail.google.com/">check mail</a> before expirate !</h2>
+        <h3>Thanks</h3>
+        <a href="~/Home"><button class="btn btn-default">Go Home</button></a>
+    }
+    else
+    {
+        <h1 class="text-danger">@ViewBag.Error</h1>
+        <a href="~/Home/Login"><button class="btn btn-default">Go Back</button></a>
+    }
+</body>
+</html>
